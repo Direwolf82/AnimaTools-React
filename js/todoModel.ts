@@ -52,5 +52,29 @@ namespace app.models {
             });
             this.inform();
         }
+
+        public save(todoToSave, text) {
+            this.todos = this.todos.map(function (todo) {
+                if (todo !== todoToSave) {
+                    return todo;
+                } else {
+                    return app.miscelaneous.Utils.extend({}, todo, {title: text});
+                }
+            });
+            this.inform();
+        }
+
+        public toggle(todoToToggle) {
+            this.todos = this.todos.map<ITodo>((todo : ITodo) => {
+                if (todo !== todoToToggle) {
+                    return todo;
+                } else {
+                    return app.miscelaneous.Utils.extend(
+                        {}, todo, {completed: !todo.completed}
+                    );
+                }
+            });
+            this.inform();
+        }
     }
 }

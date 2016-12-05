@@ -10,7 +10,7 @@ interface ITodoItemProps{
     key: string,
     todo: ITodo,
     editing? : boolean,
-    onSAve: (val: any) => void,
+    onSave: (val: any) => void,
     onDestroy: () => void,
     onEdit: () => void,
     onCancel: (event: any) => void,

@@ -24,7 +24,7 @@ namespace app.components {
                     </span>
                     <ul className = "filters">
                         <li>
-                            <a href=#/"
+                            <a href="#/"
                                 className={cx({selected: nowShowing === app.constants.ALL_TODOS})}>
                                 ALL
                             </a>
