@@ -1,8 +1,8 @@
 namespace app.models {
     export class TodoModel implements ITodoModel {
-        public key : string,
-        public todos : Array<ITodo>,
-        public onChanges : Array<any>,
+        public key : string;
+        public todos : Array<ITodo>;
+        public onChanges : Array<any>;
 
         constructor(key) {
             this.key = key;

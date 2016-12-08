@@ -52,5 +52,5 @@ interface IAppProps {
 //Defines the interface of the state of the App component
 interface IAppState {
     editing? : string,
-    nowShowing: string
+    nowShowing?: string
 }

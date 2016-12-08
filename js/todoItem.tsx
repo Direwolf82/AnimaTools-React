@@ -42,7 +42,8 @@ namespace app.components {
 
         public componentDidUpdate(prevProps){
             if(!prevProps.editing && this.props.editing){
-                var node = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["editField"]);
+                //I use to have findDOMNode
+                var node = ReactDOM.find(HTMLInputElement)(this.refs["editField"]);
                 node.focus();
                 node.setSelectionRange(node.value.length, node.value.length);
             }

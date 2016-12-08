@@ -29,10 +29,11 @@ namespace app.components {
                 return;
             }
             event.preventDefault();
-            var val = React.findDOMNode<HTMLInputElement>(this.refs["newField"]).value.trim();
+            //I used to have findDOMNode
+            var val = ReactDOM.find(HTMLInputElement)(this.refs["newField"]).value.trim();
             if(val){
                 this.props.model.addTodo(val);
-                React.findDOMNode<HTMLInputElement>(this.refs["newField"]).value = '';
+                ReactDOM.find(HTMLInputElement)(this.refs["newField"]).value = '';
             }
         }
 
@@ -58,5 +59,104 @@ namespace app.components {
             this.setState({editing: null});
         }
 
+        public cancel(){
+            this.setState({editing: null});
+        }
+
+        public clearCompleted(){
+            this.props.model.clearCompleted();
+        }
+
+        public render() {
+            var footer;
+            var main;
+            var todos = this.props.model.todos;
+
+            var showTodos = todos.filter((todo) =>{
+                switch(this.state.nowShowing){
+                    case app.constants.ACTIVE_TODOS:
+                        return !todo.completed;
+                    case app.constants.COMPLETED_TODOS:
+                        return todo.completed;
+                    default:
+                        return true;
+                }
+            }, this);
+
+            var todoItems = showTodos.map((todo) => {
+                return (
+                    <TodoItem
+                        key = {todo.id}
+                        todo = {todo}
+                        onToggle = {this.toggle.bind(this, todo)}
+                        onDestroy = {this.destroy.bind(this, todo)}
+                        onEdit = {this.edit.bind(this, todo)}
+                        editing= {this.state.editing === todo.id}
+                        onSave = {this.save.bind(this, todo)}
+                        onCancel = {e => this.cancel()}
+                    />
+                );
+            }, this)
+
+            var activeTodoCount = todos.reduce((accum, todo) => {
+                return todo.completed ? accum : accum + 1;
+            }, 0);
+
+            var completedCount = todos.length - activeTodoCount;
+            if(activeTodoCount || completedCount) {
+                footer =
+                    <TodoFooter
+                        count = {activeTodoCount}
+                        completedCount = {completedCount}
+                        nowShowing = {this.state.nowShowing}
+                        onClearCompleted = { e => this.clearCompleted()}
+                    />;
+            }
+
+            if(todos.length) {
+                main =(
+                    <section className = "main">
+                        <input
+                            className = "toggle-all"
+                            type = "checkbox"
+                            onChange = { e => this.toggleAll(e)}
+                        />
+                        <ul className = "todo-list">
+                            {todoItems}
+                        </ul>
+                    </section>
+                );
+            }
+
+            return (
+                <div>
+                    <header className = "header">
+                        <h1>Todo Items</h1>
+                        <input
+                            ref = "newField"
+                            className = "new-todo"
+                            placeholder="What needs to be done?"
+                            onKeyDown = {e => this.handleNewTodoKeyDown(e)}
+                            autoFocus = {true}
+                        />
+                    </header>
+                    {main}
+                    {footer}
+                </div>
+            );
+        }
     }
 }
+
+var model = new TodoModel('react-todos');
+var TodoApp = app.components.TodoApp;
+
+function render() {
+    ReactDOM.render(
+        <TodoApp model={model}/>,
+        document.getElementsByClassName('todoapp')[0]
+    );
+}
+
+model.subscribe(render);
+render();
