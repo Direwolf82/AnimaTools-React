@@ -1,4 +1,5 @@
 declare var Router: any;
+import React from __React;
 
 var TodoModel = app.models.TodoModel;
 var TodoFooter = app.components.TodoFooter;

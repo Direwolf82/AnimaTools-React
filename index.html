@@ -1,27 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" data-framework="typescript">
-<head>
-    <meta charset="UTF-8">
-    <title>Anima Tools</title>
-    <link rel="stylesheet"
-          href="node_modules/todomvc-app-css/base.css">
-    <link rel="stylesheet"
-          href="node_modules/todomvc-app-css/index.css">
-</head>
-<body>
-<section class="todoapp"></section>
+<!--<html lang="en" data-framework="typescript">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Anima Tools</title>-->
+    <!--<link rel="stylesheet"-->
+          <!--href="node_modules/todomvc-app-css/base.css">-->
+    <!--<link rel="stylesheet"-->
+          <!--href="node_modules/todomvc-app-css/index.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<section class="todoapp"></section>-->
 
-<script type="text/javascript"
-        src="node_modules/react/dist/react-with-addons.js">
-</script>
-<script type="text/javascript"
-        src="node_modules/director/build/director.js">
-</script>
-<script type="text/javascript" src="js/constants.js"></script>
-<script type="text/javascript" src="js/utils.js"></script>
-<script type="text/javascript" src="js/todoModel.js"></script>
-<script type="text/javascript" src="js/todoItem.js"></script>
-<script type="text/javascript" src="js/footer.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-</body>
+<!--<script type="text/javascript"-->
+        <!--src="node_modules/react/dist/react-with-addons.js">-->
+<!--</script>-->
+<!--<script type="text/javascript"-->
+        <!--src="node_modules/director/build/director.js">-->
+<!--</script>-->
+<!--<script type="text/javascript" src="js/constants.js"></script>-->
+<!--<script type="text/javascript" src="js/utils.js"></script>-->
+<!--<script type="text/javascript" src="js/todoModel.js"></script>-->
+<!--<script type="text/javascript" src="js/todoItem.js"></script>-->
+<!--<script type="text/javascript" src="js/footer.js"></script>-->
+<!--<script type="text/javascript" src="js/app.js"></script>-->
+<!--</body>-->
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title> Anima Tools</title>
+    </head>
+    <body>
+    <div id="react-app"></div>
+    <script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react.js"></script>
+    <script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react-dom.js"></script>
+    </body>
 </html>
+
+<script>
+    var contacts = [
+        {key: 1, name: "First Person", email: "first@somedomain.com", description: "Doer of Jobs"},
+        {key: 2, name: "Bob", email: "bob@example.com"},
+        {key: 3, name: "Not Bob"},
+    ]
+
+    var ContactItem = React.createClass({
+        propTypes: {
+            name: React.PropTypes.string.isRequired,
+            email: React.PropTypes.string.isRequired,
+            description: React.PropTypes.string,
+        },
+
+        render: function() {
+            return (
+                React.createElement('li', {},
+                    React.createElement('h2', {}, this.props.name),
+                    React.createElement('a', {href: 'mailto:'+this.props.email}, this.props.email),
+                    React.createElement('div', {}, this.props.description)
+                )
+            )
+        },
+    })
+
+    var contactItemElements = contacts
+        .filter(function(contact) { return contact.email })
+        .map(function(contact) { return React.createElement(ContactItem, contact) })
+
+    var rootElement =
+        React.createElement('div', {},
+            React.createElement('h1', {}, "Contacts"),
+            React.createElement('ul', {}, contactItemElements)
+        )
+
+    ReactDOM.render(rootElement, document.getElementById('react-app'))
+</script>
